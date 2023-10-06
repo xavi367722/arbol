@@ -1,87 +1,84 @@
-// Creamos la clase de nodos
 class Nodo {
     constructor(valor) {
-    this.valor = valor;
-    this.izquierda = null;
-    this.derecha = null;
+      this.valor = valor;
+      this.izquierda = null;
+      this.derecha = null;
     }
-    }
-    
-    // Definimos el arbol
-    class BinaryTree {
+  }
+  
+  class BinaryTree {
     constructor() {
-    this.raiz = null;
+      this.raiz = null;
     }
-    
-    // Función del árbol para agregar un valor
+  
     insertar(valor) {
-    // Crear nodo
-    const nodoNuevo = new Nodo(valor);
-    // Si el árbol está vacío
-    if (this.raiz === null) {
-    this.raiz = nodoNuevo;
-    return true;
+      const nodoNuevo = new Nodo(valor);
+      if (this.raiz === null) {
+        this.raiz = nodoNuevo;
+        return true;
+      } else {
+        let nodoActual = this.raiz;
+        while (true) {
+          if (valor < nodoActual.valor) {
+            if (nodoActual.izquierda === null) {
+              nodoActual.izquierda = nodoNuevo;
+              return true;
+            }
+            nodoActual = nodoActual.izquierda;
+          } else {
+            if (nodoActual.derecha === null) {
+              nodoActual.derecha = nodoNuevo;
+              return true;
+            }
+            nodoActual = nodoActual.derecha;
+          }
+        }
+      }
     }
-    else {
-    // Buscar la posición en el árbol si ya tiene datos
-    let nodoActual = this.raiz;
-    while (true) {
-    // Si es menor se va al sub- árbol de la izquierda
-    if (valor < nodoActual.valor) {
-    // Si el hijo de la izquierda está vacío se inserta un nodo
-    if (nodoActual.izquierda === null) {
-    nodoActual.izquierda = nodoNuevo;
-    return true;
-    }
-    // Se mueve hacia el nodo de la izquierda
-    nodoActual = nodoActual.izquierda;
-    }
-    // Si es mayor o igual te vas a la derecha
-    else {
-    // Si el sub-árbol derecho es nulo, se inserta un nuevo nodo
-    if (nodoActual.derecha === null) {
-    nodoActual.derecha = nodoNuevo;
-    return true;
-    }
-    // Te mueves al nodo de la derecha
-    nodoActual = nodoActual.derecha;
-    }
-    }
-    }
-    }
-    
-    // Función para la búsqueda
+  
     buscar(valor) {
-    // Se inicia la búsqueda en la raíz
-    let nodoActual = this.raiz;
-    
-    // Recorre el árbol hasta que se encuentre una coincidencia
-    while (nodoActual !== null) {
-    // Si encuentras el valor, retorna
-    if (valor === nodoActual.valor) {
-    return true;
+      let nodoActual = this.raiz;
+      while (nodoActual !== null) {
+        if (valor === nodoActual.valor) {
+          return true;
+        } else if (valor < nodoActual.valor) {
+          nodoActual = nodoActual.izquierda;
+        } else {
+          nodoActual = nodoActual.derecha;
+        }
+      }
+      return false;
     }
-    // Si el valor es mayor ve al sub-árbol izquierdo
-    else if (valor < nodoActual.valor) {
-    nodoActual = nodoActual.izquierda;
+  
+    buscarTodas(valor) {
+      const coincidencias = [];
+  
+      function buscarRecursivamente(nodo) {
+        if (nodo === null) {
+          return;
+        }
+  
+        if (valor === nodo.valor) {
+          coincidencias.push(nodo.valor);
+        }
+  
+        buscarRecursivamente(nodo.izquierda);
+        buscarRecursivamente(nodo.derecha);
+      }
+  
+      buscarRecursivamente(this.raiz);
+  
+      return coincidencias;
     }
-    // Si el valor es mayor ve al sub-árbol derecho
-    else {
-    nodoActual = nodoActual.derecha;
-    }
-    }
-    // Si no se encuentra el valor retorna un falso
-    return false;
-    }
-    }
-    
-    // Ejemplo de uso
-    const binaryTree = new BinaryTree();
-    binaryTree.insertar(5);
-    binaryTree.insertar(2);
-    binaryTree.insertar(3);
-    binaryTree.insertar(8);
-    
-    //Método buscar y notificar si encuentra primera coincidencia
-    console.log(tree.buscar(4)); // Output: true
-    console.log(tree.buscar(6)); // Output: false
+  }
+  
+  const binaryTree = new BinaryTree();
+  binaryTree.insertar(5);
+  binaryTree.insertar(2);
+  binaryTree.insertar(3);
+  binaryTree.insertar(8);
+  binaryTree.insertar(5);
+  
+  const todasLasCoincidencias = binaryTree.buscarTodas(5);
+  console.log(todasLasCoincidencias); 
+  
